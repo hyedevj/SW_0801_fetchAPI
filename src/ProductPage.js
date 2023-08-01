@@ -12,7 +12,7 @@ import { request } from "./api.js"
 }
 *
 */
-export default function ProdcutPage({
+export default function ProductPage({
     $target,
     initialState
 }) {
