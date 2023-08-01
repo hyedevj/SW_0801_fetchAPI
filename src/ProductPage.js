@@ -26,12 +26,12 @@ export default function ProdcutPage({
         $target: $product,
         initialState: [],
         onSelect: (option) => {
-            const nextState = [...this.state]
+            const nextState = {...this.state}
             const { selectedOptions } =nextState
 
             const selectedOptionIndex = selectedOptions.findIndex(selectedOption => selectedOption.optionId === option.optionId)
 
-            if (selectedOption) {
+            if (selectedOptionIndex > -1) {
                 nextState.selectedOptions[selectedOptionIndex].ea++
             } else {
                 nextState.selectedOptions.push({
@@ -53,8 +53,11 @@ export default function ProdcutPage({
             basePrice: 10000,
             selectedOptions: []
         },
-        onRemove: () => {
+        onRemove: (selectedOptionIndex) => {
+            const nextState = { ...this.state }
+            nextState.selectedOptions.splice(selectedOptionIndex, 1)
 
+            this.setState(nextState)
         }
     })
 
@@ -67,11 +70,12 @@ export default function ProdcutPage({
         this.state = nextState
 
         const { product, selectedOptions, optionData } = this.state
-        productOptions.setState(this.state.optionData)
+
+        productOptions.setState(optionData)
         cart.setState({
-            productName: product.optionName,
+            productName: product.name,
             basePrice: product.basePrice,
-            selectedProduct: selectedOptions
+            selectedOptions: selectedOptions
         })
     }
 
